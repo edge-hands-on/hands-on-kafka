@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
 @Component
 class Consumer: ConsumerSeekAware {
 
-    @KafkaListener(topics = ["test-3"], groupId = "foo1")
+    @KafkaListener(topics = ["8n903ims-default"], groupId = "8n903ims-consumers")
     fun listen(message: String) {
         println("Received Messasge in group foo: $message")
     }
@@ -20,7 +20,7 @@ class Consumer: ConsumerSeekAware {
         callback: ConsumerSeekCallback
     ) {
         assignments.keys.stream()
-            .filter { partition: TopicPartition -> "test-3" == partition.topic() }
+            .filter { partition: TopicPartition -> "8n903ims-default" == partition.topic() }
             .forEach { partition: TopicPartition ->
                 callback.seekToBeginning(
                     partition.topic(),
