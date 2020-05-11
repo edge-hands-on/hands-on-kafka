@@ -10,19 +10,18 @@ import org.springframework.cloud.stream.annotation.StreamListener
 import org.springframework.cloud.stream.binder.kafka.streams.annotations.KafkaStreamsProcessor
 import org.springframework.messaging.handler.annotation.SendTo
 import java.time.Duration
-import java.util.Arrays
 
 @EnableBinding(KafkaStreamsProcessor::class)
 class WordCountProcessorApplication {
     @StreamListener("input")
-    @SendTo("out")
+    @SendTo("output")
     fun process(input: KStream<Any?, String>): KStream<*, WordCount?> {
         return input
-                .flatMapValues { value: String -> Arrays.asList(*value.toLowerCase().split("\\W+".toRegex()).toTypedArray()) }
+                .flatMapValues { value: String -> listOf(*value.toLowerCase().split("\\W+".toRegex()).toTypedArray()) }
                 .map { key: Any?, value: String -> KeyValue(value, value) }
                 .groupByKey()
                 .windowedBy(TimeWindows.of(Duration.ofMillis(5000)))
-                .count(Materialized.`as`("WordCounts-1"))
+                .count(Materialized.`as`("WordCounts-state-store"))
                 .toStream()
                 .map<Any, WordCount> { key: Windowed<String>, value: Long ->
                     KeyValue(null, WordCount(key.key(), value))
@@ -31,4 +30,3 @@ class WordCountProcessorApplication {
 }
 
 data class WordCount(val key: String, val value: Long)
-
