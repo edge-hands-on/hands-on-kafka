@@ -15,9 +15,14 @@ import java.time.Duration
 class WordCountProcessorApplication {
     @StreamListener("input")
     @SendTo("output")
-    fun process(input: KStream<Any?, String>): KStream<*, WordCount?> {
+    fun process(input: KStream<Any?, Dto>): KStream<*, WordCount?> {
+
+//        org.apache.kafka.common.serialization.Serdes.
+//        org.apache.kafka.
+//        org.springframework.kafka.support.serializer.JsonSerde
+
         return input
-                .flatMapValues { value: String -> listOf(*value.toLowerCase().split("\\W+".toRegex()).toTypedArray()) }
+                .flatMapValues { value: Dto -> listOf(*value.value.toLowerCase().split("\\W+".toRegex()).toTypedArray()) }
                 .map { key: Any?, value: String -> KeyValue(value, value) }
                 .groupByKey()
                 .windowedBy(TimeWindows.of(Duration.ofMillis(5000)))
@@ -30,3 +35,7 @@ class WordCountProcessorApplication {
 }
 
 data class WordCount(val key: String, val value: Long)
+
+ class Dto {
+    var value: String = ""
+}
