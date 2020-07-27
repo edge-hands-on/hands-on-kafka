@@ -26,7 +26,7 @@ class WordCountProcessorApplication {
                     .split("\\W+".toRegex())
                     .toTypedArray())
                 }
-                .map { key: Any?, value: String -> KeyValue(value, value) }
+                .map { key: Any?, value: String -> KeyValue(value, value.toByteArray()) }
                 .groupByKey()
                 .windowedBy(TimeWindows.of(Duration.ofMillis(5000)))
                 .count(Materialized.`as`("WordCounts-state-store"))

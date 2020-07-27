@@ -11,7 +11,7 @@ class Application(
 ) : CommandLineRunner {
     override fun run(vararg args: String?) {
         val dto = Dto.newBuilder()
-            .setValue("Hello world protobuf")
+            .setValue("Hello3")
             .build()
 
         kafkaTemplate.send("8n903ims-in-protobuf", dto.toByteArray())
