@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello WebSocket</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/main.css" rel="stylesheet">
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/app.js"></script>
+</head>
+<body border="1">
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
+    enabled. Please enable
+    Javascript and reload this page!</h2></noscript>
+<div id="main-content" class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form>
+                <div class="form-group">
+                    <label for="connect">WebSocket connection:</label>
+                    <button id="connect" class="btn btn-default" type="button">Connect</button>
+                    <button id="disconnect" class="btn btn-default" type="button" disabled="disabled">Disconnect
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <h2>Stock</h2>
+        <div class="col-md-6">
+            <div class="form-row">
+                <form id="form-storage">
+                    <div class="form-group">
+                        <label for="storage_name">Product</label>
+                        <input type="text" id="storage_name" class="form-control" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="storage_quantity">Quantity</label>
+                        <input type="text" id="storage_quantity" class="form-control" placeholder="Quantity">
+                    </div>
+                    <button id="add_stock" class="btn btn-default" type="button">Storage Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h2>Shopping</h2>
+        <div class="col-md-6">
+            <div class="form-row">
+                <form>
+                    <div class="form-group">
+                        <label for="sell_product_id">Product</label>
+                        <select class="form-control" id="sell_product_id">
+                            <option value="Mouse">Mouse</option>
+                            <option value="Keyboard">Keyboard</option>
+                            <option value="Monitor">Monitor</option>
+                            <option value="Microphone">Microphone</option>
+                            <option value="Charger">Charger</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sell_quantity">Quantity</label>
+                        <input type="text" id="sell_quantity" class="form-control" placeholder="Quantity">
+                    </div>
+                    <button id="sell_product" class="btn btn-default" type="button">Sell Product</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h2>Stock state</h2>
+        <div class="col-md-12">
+            <table id="conversation" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody id="stock_state">
+                    <tr>
+                        <td>1</td>
+                        <td>Product 1</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Product 2</td>
+                        <td>20</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Product 3</td>
+                        <td>15</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
