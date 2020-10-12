@@ -12,18 +12,10 @@ public class StorageController {
 
     private final KafkaTemplate<String, StorageEntry> kafkaTemplate;
 
-//    @Qualifier(Source.OUTPUT)
-//    private final MessageChannel messageChannel;
-
     @MessageMapping("/storage")
     public void storageAdd(StorageEntry entry) {
-        System.out.println(String.format("Stomp controller: %s", entry));
+        System.out.printf("Stomp controller: %s%n", entry);
 
-//        messageChannel.send(MessageBuilder
-//                .withPayload(entry)
-//                .setHeader(KafkaHeaders.MESSAGE_KEY, entry.getName())
-//                .build()
-//        );
-        kafkaTemplate.send("dtkg3qob-storage", entry.getName(), entry);
+        kafkaTemplate.send("dtkg3qob-events", null, entry);
     }
 }

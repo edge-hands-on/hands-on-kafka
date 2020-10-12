@@ -18,7 +18,7 @@ function connect() {
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/greetings', function (greeting) {
+        stompClient.subscribe('/topic/storage', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
     });
@@ -50,14 +50,23 @@ function shopping() {
     }));
 }
 
+function testMethod() {
+    console.log("test method called")
+    stompClient.send("/app/test", {}, JSON.stringify({
+        'name': '',
+        'quantity': ''
+    }));
+    console.log("test method finishing")
+}
+
 function showGreeting(message) {
-    $("#greetings").append("<tr><td>" + message + "</td></tr>");
+    console.log(message);
 }
 
 $(function () {
     $("#connect").click(function() { connect(); });
     $("#disconnect").click(function() { disconnect(); });
+    $("#btn_test").click(function() { testMethod(); });
     $("#add_stock").click(function() { storageAdd(); });
     $("#sell_product").click(function() { shopping(); });
 });
-
