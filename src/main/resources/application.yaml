@@ -1,0 +1,47 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: dtkg3qob
+  kafka:
+    bootstrap-servers: rocket-01.srvs.cloudkafka.com:9094,rocket-02.srvs.cloudkafka.com:9094,rocket-03.srvs.cloudkafka.com:9094
+    properties:
+      security:
+        protocol: SASL_SSL
+      sasl:
+        mechanism: SCRAM-SHA-256
+        jaas:
+          config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${USERNAME}" password="${PASSWORD}";
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        #spring.json.trusted.packages: "com.example.messagingstompwebsocket.dto"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+app:
+  topic:
+    main-events: dtkg3qob-events
+    storage-topic: dtkg3qob-storage
+
+
+#spring.cloud.stream.bindings.event.destination=dtkg3qob-events
+#spring.cloud.stream.bindings.event-storage.destination=dtkg3qob-storage
+
+#spring.cloud.function.definition=updateStorage;storageUpdated
+#spring.cloud.function.definition=updateStorage
+
+#spring.cloud.stream.kafka.streams.bindings.updateStorage.consumer.application-id=dtkg3qob
+
+#spring.cloud.stream.bindings.updateStorage-in-0.destination=dtkg3qob-events
+#spring.cloud.stream.bindings.updateStorage-in-0.group=group1
+#spring.cloud.stream.bindings.updateStorage-out-0.destination=dtkg3qob-storage
+
+#spring.cloud.stream.kafka.streams.binder.storageUpdated.applicationId=storage
+#spring.cloud.stream.bindings.storageUpdated-in-0.destination=dtkg3qob-storage-reduce-sum-changelog
+#spring.cloud.stream.bindings.storageUpdated-in-0.group=group2
+#spring.cloud.stream.bindings.storageUpdated-in-0.destination=dtkg3qob-storage
+

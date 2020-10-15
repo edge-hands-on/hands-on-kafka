@@ -3,10 +3,11 @@ package com.example.messagingstompwebsocket.service;
 import com.example.messagingstompwebsocket.dto.StorageEntry;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.streams.KeyValue;
+import org.apache.kafka.streams.StoreQueryParameters;
 import org.apache.kafka.streams.state.KeyValueIterator;
 import org.apache.kafka.streams.state.QueryableStoreTypes;
 import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
-import org.springframework.cloud.stream.binder.kafka.streams.InteractiveQueryService;
+import org.springframework.kafka.config.StreamsBuilderFactoryBean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,13 +18,15 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class StorageService {
 
-    private final InteractiveQueryService interactiveQueryService;
+    private final StreamsBuilderFactoryBean factoryBean;
 
     public List<StorageEntry> getStorageStatus() {
         ArrayList<StorageEntry> storage = new ArrayList<>();
 
         ReadOnlyKeyValueStore<String, Long> eventStorage =
-                interactiveQueryService.getQueryableStore("storage-reduce-sum", QueryableStoreTypes.keyValueStore());
+                factoryBean.getKafkaStreams().store(StoreQueryParameters.fromNameAndType(
+                        "storage-reduce-sum",
+                        QueryableStoreTypes.keyValueStore()));
 
         KeyValueIterator<String, Long> storageIterator = eventStorage.all();
         try {
