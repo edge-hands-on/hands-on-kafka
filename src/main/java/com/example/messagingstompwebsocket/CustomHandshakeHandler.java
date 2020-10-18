@@ -21,4 +21,3 @@ public class CustomHandshakeHandler extends DefaultHandshakeHandler {
         return new StompPrincipal(UUID.randomUUID().toString());
     }
 }
-

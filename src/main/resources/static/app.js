@@ -51,10 +51,6 @@ function disconnect() {
   console.log("Disconnected");
 }
 
-function sendName() {
-  stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#name").val()}));
-}
-
 function storageAdd() {
   stompClient.send("/app/storage", {}, JSON.stringify({
     'name': $("#storage_name").val(),
