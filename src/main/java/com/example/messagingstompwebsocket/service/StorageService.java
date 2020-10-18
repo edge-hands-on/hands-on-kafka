@@ -19,7 +19,8 @@ public class StorageService {
 
     private final InteractiveQueryService interactiveQueryService;
 
-    public List<StorageEntry> getStorageStatus() {
+    public List<StorageEntry>
+    getStorageStatus() {
         ArrayList<StorageEntry> storage = new ArrayList<>();
 
         ReadOnlyKeyValueStore<String, Long> eventStorage =
